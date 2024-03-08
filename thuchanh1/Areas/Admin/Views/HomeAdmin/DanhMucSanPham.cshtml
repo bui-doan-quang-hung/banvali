@@ -1,0 +1,67 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using thuchanh1.Models;
+@model X.PagedList.IPagedList<TDanhMucSp>
+
+@{
+    ViewData["Title"] = "DanhMucSanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<h1>DanhMucSanPham</h1>
+
+<p>
+    <a asp-action="ThemSanPhamMoi"> create new</a>
+</p>
+<p> @TempData["Message"]</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                tensp
+            </th>
+            <th>
+                nganlaptop
+            </th>
+
+            <th>
+                min
+            </th>
+            <th>
+                max
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NganLapTop)
+
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaNhoNhat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaLonNhat)
+            </td>
+           
+            <td>
+                <a asp-action="SuaSanPham" asp-route-maSanPham="@item.MaSp">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaSp">Details</a> |
+                <a asp-action="XoaSanPham" asp-route-maSanPham="@item.MaSp">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div class="product__pagination blog__pagination">
+    @Html.PagedListPager(Model, page => Url.Action("DanhMucSanPham", new { page = page, maloai = ViewBag.maloai }), new PagedListRenderOptions { LiElementClasses = new[] { "page-item" }, PageClasses = new[] { "page-link" } })
+</div>

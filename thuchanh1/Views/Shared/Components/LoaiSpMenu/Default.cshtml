@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TLoaiSp>
+
+<div class="col-lg-3">
+    <div class="hero__categories">
+        <div class="hero__categories__all">
+            <i class="fa fa-bars"></i>
+            <span>All departments</span>
+        </div>
+        <ul>
+            @foreach (var item in Model)
+            {
+                var getUrl = "https://localhost:7110/api/ProductAPI/" + item.MaLoai;
+                <li><a style="cursor:pointer;" onclick="showProductByCategory('@getUrl');return false;">@item.Loai</a></li>
+            }
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showProductByCategory(getUrl) {
+        var str = '';
+        $.ajax({
+            type: 'GET',
+            url: getUrl,
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (key, val) {
+                    var linkImage = "../ProductsImages/" + $.trim(val.AnhDaiDien);
+                    str += `${val.TenSp}`
+                });
+
+                $('#displayProducts').html(str);
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+</script>
